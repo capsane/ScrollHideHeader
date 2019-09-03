@@ -3,12 +3,10 @@ package com.capsane.example.homepage
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Scroller
 import androidx.core.view.NestedScrollingParent
-import androidx.core.view.NestedScrollingParentHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -39,19 +37,15 @@ class ScrollHideHeaderNestedScrollView : FrameLayout, NestedScrollingParent {
 
     var onHeaderViewScrollToHideCallback: ((hide: Boolean) -> Unit)? = null
 
-    private val helper: NestedScrollingParentHelper by lazy { NestedScrollingParentHelper(this) }
+//    private val helper: NestedScrollingParentHelper by lazy { NestedScrollingParentHelper(this) }
 
     /**
      * child ACTION_DOWN时触发
      * 设为true，接受并处理child嵌套滑动
      */
-    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {
+    override fun onStartNestedScroll(child: View, target: View, axes: Int): Boolean {
         isScrolling = true
         return true
-    }
-
-    override fun onNestedScrollAccepted(child: View, target: View, axes: Int) {
-        helper.onNestedScrollAccepted(child, target, axes)
     }
 
     /**
@@ -101,7 +95,7 @@ class ScrollHideHeaderNestedScrollView : FrameLayout, NestedScrollingParent {
      *
      * FIXME: NestedScrollingParent存在缺陷，https://www.jianshu.com/p/f55abc60a879
      *  父view返回false，那么child未消耗完的velocity理应交给parent处理，但是这里剩余的速度就丢失了
-     *  可以尝试用NestedScrollingParent2，估计不用添加OnScrollListener了
+     *  可以尝试用NestedScrollingParent2，估计不用添加OnScrollListener，但是，parent如何处理嵌套滑动呢？像NestedScrollView一样覆写computeScroll???
      */
     override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float): Boolean {
         if (scrollY == 0 && velocityY > 0) {
@@ -151,7 +145,6 @@ class ScrollHideHeaderNestedScrollView : FrameLayout, NestedScrollingParent {
      */
     override fun onStopNestedScroll(target: View) {
         isScrolling = false
-        helper.onStopNestedScroll(target)
         if (consumedYSum > 0) {
             if (this.scrollY > maxScrollY / 4) {
                 animateToPosition(maxScrollY)
@@ -172,10 +165,12 @@ class ScrollHideHeaderNestedScrollView : FrameLayout, NestedScrollingParent {
     /**
      * 标准写法？
      * scroller只负责处理数据，可以理解为插值策略；实际最终滑动还是scrollTo
+     * FIXME:必须要重写computeScroll?
+     *  由于使用了scroller
      */
     override fun computeScroll() {
         if (scroller.computeScrollOffset()) {   // True,表示Scroller的数值还在变化中
-            val y = scroller.currY  // 当前变化的Y
+            val y = scroller.currY
             scrollTo(0, y)
             postInvalidate()
         }
