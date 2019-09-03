@@ -3,6 +3,7 @@ package com.capsane.example.homepage
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Scroller
@@ -90,25 +91,42 @@ class ScrollHideHeaderNestedScrollView : FrameLayout, NestedScrollingParent {
     }
 
     /**
-     * child ACTION_UP && there is a fling，判断是否需要处理嵌套fling
-     * @return if true, fling will totally consumed by parent view
+     * React to a nested fling before the target view consumes it.
+     *
+     * If a nested scrolling parent is consuming motion as part of a pre-scroll,
+     * it may be appropriate for it to also consume the pre-fling to complete that same motion.
+     * By returning true, the parent indicates that the child should not fling its own internal content as well.
+     *
+     * @return true if this parent consumed the fling ahead of the target view
+     *
      * FIXME: NestedScrollingParent存在缺陷，https://www.jianshu.com/p/f55abc60a879
+     *  父view返回false，那么child未消耗完的velocity理应交给parent处理，但是这里剩余的速度就丢失了
      *  可以尝试用NestedScrollingParent2，估计不用添加OnScrollListener了
      */
     override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float): Boolean {
-        if (scrollY == 0 && velocityY > 0) {    // FIXME: when?
-            return true     // child do nothing
+        if (scrollY == 0 && velocityY > 0) {
+            return true
         }
-        return false        // parent do nothing
+        return false
     }
 
     /**
+     * Request a fling from a nested scroll.
+     *
+     * If a nested scrolling child view would normally fling but it is at the edge of
+     * its own content, it can use this method to delegate the fling to its nested scrolling
+     * parent instead. The parent may optionally consume the fling or observe a child fling.
+     *
+     * @param target View that initiated the nested scroll
+     * @param consumed true if the child consumed the fling, false otherwise
+     * @return true if this parent consumed or otherwise reacted to the fling
+     *
      * 正式处理嵌套fling：首次出现fling时，为rv添加OnScrollListener
      * 感觉也可以放到onNestedPreFling中处理
      */
     override fun onNestedFling(target: View, velocityX: Float, velocityY: Float, consumed: Boolean): Boolean {
         if (!scrollListenerMap.containsKey(rv)) {
-            // remember to clear listeners
+            // FIXME: 由于child剩余的速度丢失了，所以添加listener监听child的滑动到顶状态
             rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
