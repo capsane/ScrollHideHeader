@@ -7,6 +7,17 @@
     android:background="#FFF0F5"
     tools:context=".MainActivity">
     
+    <com.capsane.example.homepage.MyAnimaView
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    
+    <com.capsane.example.homepage.RadarView
+        android:visibility="gone"
+        android:layout_gravity="bottom|end"
+        android:layout_width="200dp"
+        android:layout_height="300dp"/>
+    
     <com.capsane.example.homepage.ScrollHideHeaderNestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
