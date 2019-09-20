@@ -23,15 +23,17 @@ class MyAnimaView : View {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     override fun onDraw(canvas: Canvas?) {
-//        if (currentPoint == null) {
-//            currentPoint = Point(RADIUS, RADIUS)
-//            canvas?.let { drawCircle(it) }
-//            startAnimation()
-//        } else {
-//            canvas?.let {
-//                drawCircle(it)
-//            }
-//        }
+        if (currentPoint == null) {
+            currentPoint = Point(RADIUS, RADIUS)
+            canvas?.let {
+                drawCircle(it)
+            }
+            startAnimation()
+        } else {
+            canvas?.let {
+                drawCircle(it)
+            }
+        }
     }
 
     private fun drawCircle(canvas: Canvas) {
