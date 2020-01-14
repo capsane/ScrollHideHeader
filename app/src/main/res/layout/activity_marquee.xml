@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="13dp"
+    android:paddingEnd="13dp"
+    tools:context=".marquee.MarqueeActivity">
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="一二三四五六七八九十1234567890"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_length"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:text="Get Length"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_below="@+id/button"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/livecast_announcement_bg"
+        android:paddingStart="9dp"
+        android:paddingEnd="9dp">
+
+        <com.capsane.example.homepage.marquee.MarqueeRecyclerView
+            android:id="@+id/rv_marquee"
+            android:layout_width="93dp"
+            android:layout_height="match_parent"
+            android:fadingEdgeLength="10dp"
+            android:requiresFadingEdge="horizontal" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

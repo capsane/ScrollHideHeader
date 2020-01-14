@@ -38,7 +38,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
-                        android:background="@drawable/black_bg" />
+                        android:background="@drawable/dog" />
 
                     <TextView
                         android:layout_width="38dp"

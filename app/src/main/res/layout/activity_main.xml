@@ -1,78 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:addStatesFromChildren="true"
     android:background="#FFF0F5"
-    tools:context=".MainActivity">
-    
-    <com.capsane.example.homepage.Bezier
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    
-    <com.capsane.example.homepage.MyAnimaView
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    
-    <com.capsane.example.homepage.RadarView
-        android:visibility="gone"
-        android:layout_gravity="bottom|end"
+    tools:context=".main.MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp" />
+
+
+    <com.capsane.example.homepage.main.MarqueeView
+        android:id="@+id/view"
         android:layout_width="200dp"
-        android:layout_height="300dp"/>
-    
-    <com.capsane.example.homepage.ScrollHideHeaderNestedScrollView
-        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fadingEdgeLength="10dp"
+        android:requiresFadingEdge="horizontal"
+        android:scrollHorizontally="true"
+        app:marqueeview_repet_type="repet_continuous"
+        app:marqueeview_text_size="15" />
+
+    <com.sunfusheng.marqueeview.MarqueeView
+        android:id="@+id/marquee_view"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="320dp"
+        app:mvDirection="right_to_left"
+        app:mvSingleLine="true"
+        app:mvTextSize="14sp" />
+
+    <com.capsane.example.homepage.main.RollingTextView
+        android:id="@+id/rolling_text_view"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="100dp"
+        android:ellipsize="marquee"
+        android:focusable="false"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:text="一二三万i我厉害你骄傲给你哦爱狗弄哦i挤公交哦赶紧哦i就给你哦i工"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="100dp"
+        android:textSize="16sp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:textSize="16sp" />
+
+    <com.capsane.example.homepage.main.Bezier
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.capsane.example.homepage.main.MyAnimaView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.capsane.example.homepage.main.RadarView
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:layout_gravity="bottom|end"
+        android:visibility="gone" />
+
+    <com.capsane.example.homepage.main.ScrollHideHeaderNestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="40dp">
+
                 <TextView
-                    android:text="Tab"
-                    android:textSize="18sp"
                     android:layout_width="50dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
-                />
+                    android:text="Tab"
+                    android:textSize="18sp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:overScrollMode="never"
-                >
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </FrameLayout>
-    </com.capsane.example.homepage.ScrollHideHeaderNestedScrollView>
-    
-    
+    </com.capsane.example.homepage.main.ScrollHideHeaderNestedScrollView>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:visibility="gone">
+
         <TextView
             android:id="@+id/search_bar"
             android:layout_width="300dp"
             android:layout_height="30dp"
-            android:background="@drawable/search_bg"
             android:layout_gravity="center_horizontal"
-            android:text="Input what you want to search"
+            android:background="@drawable/search_bg"
             android:gravity="center_vertical|start"
             android:paddingStart="15dp"
             android:paddingLeft="15dp"
-        />
+            android:text="Input what you want to search" />
     </FrameLayout>
 
 </FrameLayout>

@@ -1,4 +1,4 @@
-package com.capsane.example.homepage
+package com.capsane.example.homepage.main
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -9,7 +9,7 @@ import android.widget.Scroller
 import androidx.core.view.NestedScrollingParent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.activity_main.view.rv
 import org.jetbrains.anko.dip
 import kotlin.math.abs
 

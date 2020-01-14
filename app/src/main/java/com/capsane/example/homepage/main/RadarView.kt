@@ -1,4 +1,4 @@
-package com.capsane.example.homepage
+package com.capsane.example.homepage.main
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -75,8 +75,14 @@ open class RadarView : View {
     }
 
     private fun startAnimation() {
-        val startPoint = Point(RADIUS, RADIUS)
-        val endPoint = Point(width - RADIUS, height - RADIUS)
+        val startPoint = Point(
+            RADIUS,
+            RADIUS
+        )
+        val endPoint = Point(
+            width - RADIUS,
+            height - RADIUS
+        )
         val animator: ValueAnimator = ValueAnimator.ofObject(PointEvaluator(), startPoint, endPoint)
         animator.addUpdateListener { animation ->
             currentPoint = animation.animatedValue as Point

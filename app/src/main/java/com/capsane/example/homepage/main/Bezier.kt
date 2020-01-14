@@ -1,4 +1,4 @@
-package com.capsane.example.homepage
+package com.capsane.example.homepage.main
 
 import android.content.Context
 import android.graphics.*

@@ -1,31 +1,46 @@
-package com.capsane.example.homepage
+package com.capsane.example.homepage.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.capsane.example.homepage.R
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_coordinator.*
+import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import kotlin.math.abs
 
+/**
+ * 为color添加alpha通道值
+ */
 fun setAlphaComponent(color: Int, @IntRange(from = 0x0, to = 0xFF) alpha: Int): Int {
     if (alpha < 0 || alpha > 255) {
         throw IllegalArgumentException("alpha must be between 0 and 255.")
     }
-    return (color and 0x00ffffff) or  (alpha.shl(24))
+    return (color and 0x00ffffff) or (alpha.shl(24))
 }
 
 class CoordinatorActivity : AppCompatActivity() {
+
+    private var lastTime: Long = 0L
+
+    private val toast by lazy { Toast.makeText(this@CoordinatorActivity, "再次点击退出程序", Toast.LENGTH_SHORT) }
 
     private var appleList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coordinator)
+
+        // eventbus
+//        EventBus.getDefault().register(this)
+
         // RecyclerView
         initData()
         recyclerView?.adapter = MyAdapter()
@@ -37,6 +52,16 @@ class CoordinatorActivity : AppCompatActivity() {
 
         //
         setupView()
+
+        back_btn?.onClick {
+            if (lastTime == 0L || (System.currentTimeMillis() - lastTime) > 1500) {
+                lastTime = System.currentTimeMillis()
+                toast.show()
+            } else {
+                toast.cancel()
+                super.onBackPressed()
+            }
+        }
     }
 
     private fun initData() {
@@ -78,7 +103,13 @@ class CoordinatorActivity : AppCompatActivity() {
     inner class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            return MyViewHolder(LayoutInflater.from(this@CoordinatorActivity).inflate(R.layout.fruit_item, parent, false) as FrameLayout)
+            return MyViewHolder(
+                LayoutInflater.from(this@CoordinatorActivity).inflate(
+                    R.layout.fruit_item,
+                    parent,
+                    false
+                ) as FrameLayout
+            )
         }
 
 
@@ -93,4 +124,8 @@ class CoordinatorActivity : AppCompatActivity() {
 
     class MyViewHolder(var v: FrameLayout) : RecyclerView.ViewHolder(v)
 
+    override fun onDestroy() {
+        EventBus.getDefault().unregister(this)
+        super.onDestroy()
+    }
 }
